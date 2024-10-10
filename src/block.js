@@ -1,4 +1,5 @@
 const SHA256 = require('crypto-js/sha256');
+const Transacao = require('./transacao');
 
 class Block{
 
@@ -17,20 +18,22 @@ class Block{
     }
 
     toString(){
-        return `Block: 
-                Timestamp: ${this.timestamp}
-                HashAnterior: ${this.hashAnterior.substring(0, 15)}
-                Hash: ${this.hash.substring(0, 15)}
-                Transacoes [ ${this.transacao}
-                ]
-                `
+        return `
+        Block: 
+            Timestamp: ${this.timestamp}
+            HashAnterior: ${this.hashAnterior.substring(0, 15)}
+            Hash: ${this.hash.substring(0, 15)}
+            Transacoes [ ${this.transacao} 
+            ]
+            `
     }
 
     static genesis(){
         const init = []; 
-        init.push("init", "initDest", 1);
-        return new this(Date.now(), '0', 'ddddddd', init);
-
+        const timestamp = Date.now();
+        const genTransacao = new Transacao("genRemetente", "genDestinatario", 1);
+        init.push(genTransacao);
+        return new this(timestamp, '7', Block.hash(timestamp, '7', init), init);
     }
 
     static mineBlock(ultimoBloco, transacao){

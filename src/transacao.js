@@ -12,7 +12,7 @@ class Transacao{
 
     toString(){
         return `
-                    Remetente: ${this.remetente} Destinatario: ${this.destinatario} Valor: ${this.valor}`
+                Remetente: ${this.remetente} Destinatario: ${this.destinatario} Valor: ${this.valor}`
     }
 
 }
