@@ -11,8 +11,10 @@ blockchain.createTransaction("36bc639c0", "0a50da1e7", 20);
 console.log("Criando bloco");
 blockchain.createBlock();
 
-console.log(blockchain.toString());
+//console.log(blockchain.toString());
 
+blockchain.transactionHistory("06972ed6d");
+blockchain.transactionHistory("0a50da1e7");
 
 // console.log("A blockchain está válida?")
 // if(blockchain.isChainValid()){

@@ -55,6 +55,22 @@ class Blockchain{
         }
     }
 
+    transactionHistory(address){
+        this.chain.forEach(element => {
+            this.getHistoryTransaction(element.transactions, address);
+        });
+    }
+
+    getHistoryTransaction(transactions, address){
+        transactions.forEach(element => {
+            if(address === element.from && address != element.to) {
+                console.log(`Address ${address} sent ${element.value} tokens to ${element.to}`);
+            } else if(address === element.to && address != element.from){
+                console.log(`Address ${address} recieved ${element.value} tokens from ${element.from}`);
+            }
+        });
+    }
+
     ultimoBloco(){        
         return this.chain[this.chain.length-1];
     }
