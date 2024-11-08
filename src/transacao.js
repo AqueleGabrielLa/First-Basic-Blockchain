@@ -12,13 +12,13 @@ class Transacao{
     }
 
     validateTransaction(){
-        
         if(!this.isHex(this.from) || !this.isHex(this.to) || (this.to.length != 9) || (this.from.length != 9)){
             console.error("Endereço inválido");
             return false;
         }
-        console.log(`transição de número ${this.number} adicionada a lista de transações pendentes!`);
         
+        //console.log(`Transação de número ${this.numTransacao} adicionada a lista de transações pendentes!`);
+
         return true;
     }
 

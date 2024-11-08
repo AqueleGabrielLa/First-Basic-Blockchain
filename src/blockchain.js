@@ -29,7 +29,7 @@ class Blockchain{
                 return false;
             }
         }
-    
+        
         const newBlock = Block.mineBlock(this.ultimoBloco(), this.pendingTransaction);
         this.chain.push(newBlock);
         this.pendingTransaction = [];
@@ -44,10 +44,13 @@ class Blockchain{
             const blocoAnterior = this.chain[i-1];
             
             if(blocoAtual.hashAnterior != blocoAnterior.hash){
+                console.error("BLOCKCHAIN INVÁLIDA. Há um Bloco na rede com hash alterado");
                 return false;
-            }
+            }        
 
-            if(blocoAtual.hashAnterior != Block.hash(blocoAnterior.timestamp, blocoAnterior.hashAnterior, blocoAnterior.transacao)){
+            if(blocoAtual.hashAnterior != Block.hash(blocoAnterior.timestamp, blocoAnterior.hashAnterior, blocoAnterior.transactions, blocoAnterior.nonce)){
+                console.error("BLOCKCHAIN INVÁLIDA. Bloco com dados alterados. Descoberto a partir do recalculo dos hash");
+                
                 return false;
             }
             
@@ -79,6 +82,9 @@ class Blockchain{
         return `${this.chain}`;
     }
 
+    static getDifficulty(){
+        return this.difficulty;
+    }
 }
 
 module.exports = Blockchain;

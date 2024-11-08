@@ -1,5 +1,6 @@
 const SHA256 = require('crypto-js/sha256');
 const Transacao = require('./transacao');
+const Blockchain = require('./blockchain');
 
 class Block{
 
@@ -35,7 +36,7 @@ class Block{
         const timestamp = Date.now();
         const genTransacao = new Transacao("genRemetente", "genDestinatario", 1);
         init.push(genTransacao);
-        return new this(timestamp, '7', Block.hash(timestamp, '7', init), init);
+        return new this(timestamp, '7', Block.hash(timestamp, '7', init, 1), init, 1);
     }
 
     static mineBlock(ultimoBloco, transacao){
@@ -45,11 +46,12 @@ class Block{
         let hash;
 
         do{
+
             hash = Block.hash(timestamp, ultimoHash, transacao, nonce++);
 
         } while (hash.substring(0, Block.difficulty) !== '0'.repeat(Block.difficulty));
 
-        console.log(`Bloco minerado na ${nonce} tentativa`);
+        console.log(`Bloco minerado na tentativa: ${nonce}`);
         
         
         return new this(timestamp, ultimoHash, hash, transacao, nonce);
