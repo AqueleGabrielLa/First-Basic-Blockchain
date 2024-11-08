@@ -1,5 +1,5 @@
 # _Basic Blockchain_ ⛓️
-Este repositório tem como objetivo armazenar a criação de uma _Blockchain_ básica, desenvolvida em _Node.js_. O projeto faz parte de um desafio proposto no programa _Scholarship_ da _Compass UOL_.
+Este repositório tem como objetivo armazenar a criação de uma _Blockchain_ básica, desenvolvida em _Node.js_. O projeto faz parte de uma sequencia de desafios propostos no programa _Scholarship_ da _Compass UOL_.
 
 ---
 
@@ -35,10 +35,20 @@ Para executar o projeto, basta executar no terminal o seguinte comando:
 
 ---
 
+## Principais funcionalidades 🔧
+
+O projeto contém funcionalidades básicas de uma rede _Blockchain_, são eles:
+
+- Criação de blocos com transações;
+- Validação de transações;
+- Algoritmo de Proof-of-Work (PoW) com mecanismo de dificuldade;
+- Verificação de histórico de transações.
+
+
 ## Finalização 🤔
 Se tudo ocorreu bem, deve ser executado o código e apresentar alguns logs de blocos criados no _Blockchain_, demonstrando a validação da mesma.
 
-Com esse pequeno projeto, pude ter meu primeiro contato com o _JavaScript_, no _Node.JS_ e fui capaz de colocar em prática os conceitos __iniciais__ vistos durante a trilha de aprendizado do Estágio.
+Com esse projeto, pude ter meu primeiro contato com o _JavaScript_, no _Node.JS_ e fui capaz de colocar em prática os conceitos iniciais vistos durante a [trilha de aprendizado do Estágio](https://github.com/AqueleGabrielLa/revisao-estagio-compass).
 
 ---
 

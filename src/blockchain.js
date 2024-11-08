@@ -11,15 +11,20 @@ class Blockchain{
         this.chain.push(genesisBlock);
     }
 
-    createTransaction(remetente, destinatario, valor){
-        const transacao = new Transacao(remetente, destinatario, valor);
-        this.pendingTransaction.push(transacao);
+    createTransaction(from, to, value){
+        const transacao = new Transacao(from, to, value);
+        if(transacao.validateTransaction()){
+            transacao.numTransacao = this.pendingTransaction.length;
+            this.pendingTransaction.push(transacao);
+            return true;
+        }
+        return false;
     }
 
     createBlock(){
         for(let i = 0; i < this.pendingTransaction.length; i++){
             const transacao = this.pendingTransaction[i];
-            if(!transacao.remetente || !transacao.destinatario || !transacao.valor){
+            if(!transacao.from || !transacao.to || !transacao.value){
                 console.log("Transações inválidas. Preencha todos os campos de todas as transações");
                 return false;
             }

@@ -3,27 +3,29 @@ const Transacao = require('./transacao');
 
 class Block{
 
-    timestamp;
-    hashAnterior;
     hash;
-    transacao = [];
-
-    constructor(timestamp, hashAnterior, hash, transacao = []){
-
+    hashAnterior;
+    nonce;
+    timestamp;
+    transactions = [];
+    static difficulty = 3;
+    
+    constructor(timestamp, hashAnterior, hash, transactions = [], nonce){
         this.timestamp = timestamp;
         this.hashAnterior = hashAnterior;
         this.hash = hash;
-        this.transacao = transacao;
-
+        this.transactions = transactions;
+        this.nonce = nonce;
     }
 
     toString(){
         return `
         Block: 
-            Timestamp: ${this.timestamp}
-            HashAnterior: ${this.hashAnterior.substring(0, 15)}
             Hash: ${this.hash.substring(0, 15)}
-            Transacoes [ ${this.transacao} 
+            HashAnterior: ${this.hashAnterior.substring(0, 15)}
+            Nonce: ${this.nonce}
+            Timestamp: ${this.timestamp}
+            Transactions [ ${this.transactions} 
             ]
             `
     }
@@ -37,15 +39,24 @@ class Block{
     }
 
     static mineBlock(ultimoBloco, transacao){
+        let nonce = 0;
         const timestamp = Date.now();
         const ultimoHash = ultimoBloco.hash;
-        const hash = Block.hash(timestamp, ultimoHash, transacao);
+        let hash;
 
-        return new this(timestamp, ultimoHash, hash, transacao);
+        do{
+            hash = Block.hash(timestamp, ultimoHash, transacao, nonce++);
+
+        } while (hash.substring(0, Block.difficulty) !== '0'.repeat(Block.difficulty));
+
+        console.log(`Bloco minerado na ${nonce} tentativa`);
+        
+        
+        return new this(timestamp, ultimoHash, hash, transacao, nonce);
     }
 
-    static hash(timestamp, ultimoHash, transacao){
-        return SHA256(`${timestamp}${ultimoHash}${transacao}`).toString();
+    static hash(timestamp, ultimoHash, transacao, nonce){
+        return SHA256(`${timestamp}${ultimoHash}${transacao}${nonce}`).toString();
     }
 }
 
