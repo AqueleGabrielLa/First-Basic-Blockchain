@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const Transacao = require("./transacao");
 
 class Helpers{
     static genAddress(){
@@ -18,6 +19,16 @@ class Helpers{
 
     static questionA(query, rl) {
         return new Promise((resolve) => rl.question(query, resolve));
+    }
+
+    static isValidAddress(address){
+        if(this.isHex(address) == true && address.length == 30) return true;
+
+        return false;
+    }
+
+    static isHex(h) {
+        return /^[0-9a-fA-F]+$/.test(h);
     }
 }
 

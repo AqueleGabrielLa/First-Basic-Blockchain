@@ -1,3 +1,4 @@
+const helper = require('./helpers.js');
 class Transacao{
 
     constructor(from, to, value){
@@ -12,21 +13,12 @@ class Transacao{
     }
 
     validateTransaction(){
-        if(!this.isHex(this.from) || !this.isHex(this.to) || (this.to.length != 30) || (this.from.length != 30)){
+        if(!helper.isHex(this.from) || !helper.isHex(this.to) || (this.to.length != 30) || (this.from.length != 30)){
             console.error("Endereço inválido");
             return false;
         }
-        
-        //console.log(`Transação de número ${this.numTransacao} adicionada a lista de transações pendentes!`);
-        console.log("Transação criada com sucesso!!");
         return true;
     }
-
-    isHex(h) {
-
-        return /^[0-9a-fA-F]+$/.test(h);
-    }
-
 }
 
 module.exports = Transacao;

@@ -16,6 +16,7 @@ class Blockchain{
         if(transacao.validateTransaction()){
             transacao.numTransacao = this.pendingTransaction.length;
             this.pendingTransaction.push(transacao);
+            console.log("Transação criada com sucesso!! Adicionada a lista de transações pendentes. Minere o bloco para adiciona-lo a blockchain");
             return true;
         }
         return false;
