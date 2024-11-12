@@ -14,7 +14,7 @@ const rl = readline.createInterface({
 });
 
 function exibirMenu() {
-  rl.question(`\n1 - Criar transação\n2 - Criar chave\n3 - Ver endereços disponíveis\n4 - Minerar bloco\n5 - Visualizar blockchain\n6 - Verificar histórico de tokens\n0 - Encerrar programa\nDigite o número da opção desejada: `, (op) => {
+  rl.question(`\n1 - Criar transação\n2 - Criar endereço\n3 - Ver endereços disponíveis\n4 - Minerar bloco\n5 - Visualizar blockchain\n6 - Verificar histórico de tokens\n0 - Encerrar programa\nDigite o número da opção desejada: `, (op) => {
     
     switch(op) {
         case '1':
@@ -26,7 +26,7 @@ function exibirMenu() {
             
                     blockchain.createTransaction(from, to, value);
                 } catch (error) {
-                    console.error('Erro ao criar transação:', error);
+                    console.error(`Erro ao criar transação:`, error);
                 } finally {
                     exibirMenu();
                 }
@@ -47,12 +47,9 @@ function exibirMenu() {
             break;
         case '6':
             rl.question(`Digite o endereço que deseja verificar o histórico: `, (address) => {
-                if(helper.isValidAddress()){
-                    blockchain.transactionHistory(address);
-                    return;
-                } else {
-                    console.error("Endereço inválido!");
-                }
+                if(helper.isValidAddress(address)) blockchain.transactionHistory(address, addresses);
+                else console.error("Endereço inválido!");
+                exibirMenu();
             })
             break;
         case '0':

@@ -46,7 +46,7 @@ O projeto contém funcionalidades básicas de uma rede _Blockchain_, são eles:
 
 
 ## Finalização 🤔
-Se tudo ocorreu bem, deve ser executado o código e apresentar alguns logs de blocos criados no _Blockchain_, informações de quantas tentativas foram necessárias para o _proof-of-work_, histórico de transações de endereços especificos e, por fim, demonstra a funcionalidade de validação da rede _Blockchain_.
+Se tudo ocorreu bem, deve ser executado o código e apresentar um menu com todas as funcionalidades descritas acima.
 
 Com esse projeto, pude ter meu primeiro contato com o _JavaScript_, no _Node.JS_ e fui capaz de colocar em prática os conceitos iniciais vistos durante a [trilha de aprendizado do Estágio](https://github.com/AqueleGabrielLa/revisao-estagio-compass).
 

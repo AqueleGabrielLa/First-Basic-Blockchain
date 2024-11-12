@@ -59,10 +59,19 @@ class Blockchain{
         }
     }
 
-    transactionHistory(address){
+    transactionHistory(address, addresses){    
+
+        if(!addresses.includes(address)){
+            console.log(`Endereço não há registro de transações na rede`);
+            return false;
+        }
+    
+        console.log(`Histórico do endereço selecionado: `);
         this.chain.forEach(element => {
             this.getHistoryTransaction(element.transactions, address);
         });
+
+        return true;
     }
 
     getHistoryTransaction(transactions, address){
@@ -71,7 +80,7 @@ class Blockchain{
                 console.log(`Address ${address} sent ${element.value} tokens to ${element.to}`);
             } else if(address === element.to && address != element.from){
                 console.log(`Address ${address} recieved ${element.value} tokens from ${element.from}`);
-            }
+            } 
         });
     }
 
