@@ -3,17 +3,14 @@ const readline = require('node:readline');
 const helper = require('./src/helpers.js');
 const Node = require('./src/node.js');
 
-// const blockchain = new Blockchain();
-// console.log("Iniciando blockchain.....\n");
+const nodes = [];
 
-// addresses = [];
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout
-// });
-
-// function exibirMenu() {
+// function exibirMenu(node) {
 //   rl.question(`\n1 - Criar transação\n2 - Criar endereço\n3 - Ver endereços disponíveis\n4 - Minerar bloco\n5 - Visualizar blockchain\n6 - Verificar histórico de tokens\n0 - Encerrar programa\nDigite o número da opção desejada: `, (op) => {
     
 //     switch(op) {
@@ -40,14 +37,14 @@ const Node = require('./src/node.js');
 //             helper.listAddress(addresses);
 //             break;
 //         case '4':
-//             blockchain.createBlock();
+//             node.blockchain.createBlock();
 //             break;
 //         case '5':
-//             console.log(blockchain.toString());
+//             console.log(node.blockchain.toString());
 //             break;
 //         case '6':
 //             rl.question(`Digite o endereço que deseja verificar o histórico: `, (address) => {
-//                 if(helper.isValidAddress(address)) blockchain.transactionHistory(address, addresses);
+//                 if(helper.isValidAddress(address)) node.blockchain.transactionHistory(address, node.addresses);
 //                 else console.error("Endereço inválido!");
 //                 exibirMenu();
 //             })
@@ -64,17 +61,49 @@ const Node = require('./src/node.js');
 //   });
 // }
 
-// exibirMenu();
-
-// rl.on('close', () => {
-//   console.log('Programa encerrado.');
-//   process.exit(0);
-// });
 
 
-node1 = new Node();
-node2 = new Node();
-node3 = new Node();
+function iniMenu(){
+    console.log(`Criando o nó inicial...`);
+
+    const node1 = new Node();
+    nodes.push(node1);
+
+    console.log(`Nó criado com id: ${node1.id}`);
+    
+    menuNodes(node1);
+
+}
+
+function menuNodes(node){
+    rl.question(`\n1 - Menu do nó\n2 - Criar nó\n3 - Selecionar nó\n`, (op) => {
+        switch(op){
+            case '1':
+                node.menu(rl);
+                console.log('testeee2222');
+                menuNodes(node);
+                break;
+            case '2':
+                const newNode = new Node();
+                nodes.push(newNode);
+                console.log(`Nó criado com id ${newNode.id}`);                
+                break;
+            case '3':
+                console.log("teste");
+                break;
+            default:
+                console.log(`Opção inválida. Por favor, escolha uma opção válida.`);
+        }
+
+        console.log('testeee');
+        
+        menuNodes(node);
+    })
+}
 
 
-console.log(node1.id + " " + node2.id + " " + node3.id);
+
+iniMenu();
+
+//node1.on("syncNeeded", () => { node1.updateChain() });
+
