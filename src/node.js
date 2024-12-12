@@ -50,7 +50,7 @@ class Node extends EventEmitter{
         }
     }
 
-    menu(rl){
+    menu(rl, exit){
         rl.question(`\n1 - Visualizar blockchain\n2 - Atualizar blockchain\n3 - Progragar blockchain\n4 - Criar transação\n5 - Criar endereço\n6 - Ver seus endereços\n7 - Minerar bloco\n8 - Verificar histórico de transações\n0 - Sair\nDigite o número da opção desejada: `, (op) => {
             switch(op){
                 case '1':
@@ -60,17 +60,20 @@ class Node extends EventEmitter{
                     this.addresses.set(helper.genAddress());
                     break;
                 case '6':
-                    console.log(this.addresses.keys());
+                    console.log(`Seus endereços: `);
+                    console.log([...this.addresses.keys()]);
                     break;
                 case '0':
                     console.log(`Saindo do nó ${this.id}`);
-                    rl.close();
+                    if(exit) exit();
                     return;
                 default:
                     console.log('Opção inválida. Por favor, escolha uma opção válida.');
             }
-            this.menu(rl);
+
+            this.menu(rl, exit);
         });
+        
     }
 }
 

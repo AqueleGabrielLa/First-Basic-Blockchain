@@ -76,29 +76,46 @@ function iniMenu(){
 }
 
 function menuNodes(node){
-    rl.question(`\n1 - Menu do nó\n2 - Criar nó\n3 - Selecionar nó\n`, (op) => {
+    console.log(`Nó selecionado: ${node.id}`);
+    rl.question(`\n1 - Menu do nó\n2 - Criar nó\n3 - Selecionar nó\n0 - Encerrar programa\n`, (op) => {
         switch(op){
             case '1':
-                node.menu(rl);
-                console.log('testeee2222');
-                menuNodes(node);
+                node.menu(rl, () => {
+                    console.log("Retornando ao menu principal...");
+                    menuNodes(node);
+                });
                 break;
             case '2':
                 const newNode = new Node();
                 nodes.push(newNode);
-                console.log(`Nó criado com id ${newNode.id}`);                
+                console.log(`Nó criado com id ${newNode.id}`);
+                menuNodes(newNode);                
                 break;
             case '3':
-                console.log("teste");
+                console.log("Selecione um nó: ");
+                nodes.forEach((n, index) => {
+                    console.log(`${index + 1} - Nó id: ${n.id}`);
+                });
+                rl.question(`Selecione o número do nó desejado: `, (index) => {
+                    const selectedNode = nodes[parseInt(index) - 1];
+                    if(selectedNode){
+                        console.log(`Nó com id ${selectedNode.id} selecionado`);
+                        menuNodes(selectedNode);
+                    } else {
+                        console.log(`Opção inválida. Tente novamente`);
+                        menuNodes(node);                        
+                    }
+                });
+                break;
+            case '0':
+                console.log(`Encerrando o programa...`);
+                rl.close();
                 break;
             default:
                 console.log(`Opção inválida. Por favor, escolha uma opção válida.`);
+                menuNodes(node);
         }
-
-        console.log('testeee');
-        
-        menuNodes(node);
-    })
+    });
 }
 
 
