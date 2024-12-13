@@ -5,15 +5,18 @@ class Blockchain{
 
     chain = [];
     pendingTransaction = [];
+    addresses;
 
     constructor(){
         const genesisBlock = Block.genesis();
         this.chain.push(genesisBlock);
+        this.addresses = new Map();
     }
 
     createTransaction(from, to, value){
         const transacao = new Transacao(from, to, value);
-        if(transacao.validateTransaction()){
+
+        if(transacao.validateTransaction(this.addresses)){
             transacao.numTransacao = this.pendingTransaction.length;
             this.pendingTransaction.push(transacao);
             console.log("Transação criada com sucesso!! Adicionada a lista de transações pendentes. Minere o bloco para adiciona-lo a blockchain");
@@ -27,12 +30,16 @@ class Blockchain{
             const transacao = this.pendingTransaction[i];
             if(!transacao.from || !transacao.to || !transacao.value){
                 console.log("Transações inválidas. Preencha todos os campos de todas as transações");
-                return false;
+                return false; // ????????????????????????????????????????????????
             }
         }
-        
+
         const newBlock = Block.mineBlock(this.ultimoBloco(), this.pendingTransaction);
+        
+
+        newBlock.mineTransaction(this.pendingTransaction, this.addresses);
         this.chain.push(newBlock);
+
         this.pendingTransaction = [];
         console.log("Bloco adicionado a rede!!!");
         
@@ -59,17 +66,17 @@ class Blockchain{
         }
     }
 
-    transactionHistory(address, addresses){    
-
-        if(!addresses.includes(address)){
-            console.log(`Endereço não há registro de transações na rede`);
-            return false;
+    isInChain(address, chain){    
+        for(let transacao of chain){
+            if(transacao.from == address || transacao.to == address){
+                return true;
+            }
         }
-    
-        console.log(`Histórico do endereço selecionado: `);
-        this.chain.forEach(element => {
-            this.getHistoryTransaction(element.transactions, address);
-        });
+        return false;
+
+        
+
+
 
         return true;
     }

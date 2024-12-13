@@ -1,5 +1,6 @@
 const SHA256 = require('crypto-js/sha256');
 const Transacao = require('./transacao');
+const Blockchain = require('./blockchain');
 
 class Block{
 
@@ -9,6 +10,7 @@ class Block{
     timestamp;
     transactions = [];
     static difficulty = 3;
+    static baseMineValue;
     
     constructor(timestamp, hashAnterior, hash, transactions = [], nonce){
         this.timestamp = timestamp;
@@ -16,6 +18,7 @@ class Block{
         this.hash = hash;
         this.transactions = transactions;
         this.nonce = nonce;
+        this.baseMineValue = 0.0000000010;
     }
 
     toString(){
@@ -38,6 +41,18 @@ class Block{
         return new this(timestamp, '7', Block.hash(timestamp, '7', init, 1), init, 1);
     }
 
+    mineTransaction(transacoes, addresses){
+
+        const firstAddress = [...addresses.keys()][0];
+
+        for(let transacao of transacoes){
+            let saldoAtual = addresses.get(firstAddress);
+            console.log(saldoAtual);
+            saldoAtual += transacao.mineValueForMiner;
+            addresses.set(firstAddress, saldoAtual);
+        }
+    }
+
     static mineBlock(ultimoBloco, transacao){
         let nonce = 0;
         const timestamp = Date.now();
@@ -51,14 +66,15 @@ class Block{
         } while (hash.substring(0, Block.difficulty) !== '0'.repeat(Block.difficulty));
 
         console.log(`Bloco minerado na tentativa: ${nonce}`);
-        
-        
+
         return new this(timestamp, ultimoHash, hash, transacao, nonce);
     }
 
     static hash(timestamp, ultimoHash, transacao, nonce){
         return SHA256(`${timestamp}${ultimoHash}${transacao}${nonce}`).toString();
     }
+
+    
 }
 
 module.exports = Block;

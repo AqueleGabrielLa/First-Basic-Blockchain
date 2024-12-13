@@ -61,8 +61,6 @@ const rl = readline.createInterface({
 //   });
 // }
 
-
-
 function iniMenu(){
     console.log(`Criando o nó inicial...`);
 
@@ -89,6 +87,7 @@ function menuNodes(node){
                 const newNode = new Node();
                 nodes.push(newNode);
                 console.log(`Nó criado com id ${newNode.id}`);
+                Node.connectedNodes.push(newNode);
                 menuNodes(newNode);                
                 break;
             case '3':
