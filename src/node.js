@@ -14,22 +14,20 @@ class Node extends EventEmitter{
         this.id = ++this.constructor.id;
 
         this.on("syncNeeded", () => {
-            console.log("Sincronizando sua blockchain");
+            console.log(`Sincronizando blockchain do nó id ${this.id}`);
             this.updateChain();
-        })
+        });
     }
 
-    recieveChain(chain){
+    recieveChain(chain, node){
         console.log(`Nó com id ${this.id} recebeu uma nova blockchain. Validando a cadeia...`);
         
-        if(chain.length > this.blockchain){
+        if(chain.chain.length > this.blockchain.chain.length){
             this.blockchain = chain;
             console.log(`Blockchain atualizada. Cadeia mais longa adotada`);
-            this.emit("chainUpdated", chain);
-            this.propagateChain();
         } else {
             console.log(`Nó com o id ${this.id} tem uma blockchain mais longa`);
-            this.emit("syncNeeded");
+            node.emit("syncNeeded");
         }
     }
 
@@ -41,7 +39,9 @@ class Node extends EventEmitter{
 
     propagateChain(){
         for(let node of Node.connectedNodes){
-            node.recieveChain(this.blockchain);
+            if(node !== this){
+                node.recieveChain(this.blockchain, this);
+            }
         }
     }
 
@@ -50,12 +50,6 @@ class Node extends EventEmitter{
 
         for(let node of Node.connectedNodes){
             if(node.blockchain.chain.length > longestChain.chain.length){
-                console.log("AAAAAAAAA");
-                console.log(node.blockchain.chain.length);
-                console.log(longestChain.chain.length);
-                
-                
-                
                 longestChain = node.blockchain;
             }
         }
@@ -67,14 +61,13 @@ class Node extends EventEmitter{
     }
 
     menu(rl, exit){
-        rl.question(`\n1 - Visualizar blockchain\n2 - Atualizar blockchain\n3 - Progragar blockchain\n4 - Criar transação\n5 - Criar endereço\n6 - Ver seus endereços\n7 - Minerar bloco\n8 - Verificar histórico de transações\n0 - Sair\nDigite o número da opção desejada: `, (op) => {
+        rl.question(`\n1 - Visualizar blockchain\n2 - Atualizar blockchain\n3 - Propagar blockchain\n4 - Criar transação\n5 - Criar endereço\n6 - Ver seus endereços\n7 - Minerar bloco\n8 - Verificar histórico de transações\n0 - Sair\nDigite o número da opção desejada: `, (op) => {
             switch(op){
                 case '1':
                     console.log(this.blockchain.toString());
                     break;
                 case '2':
                     this.updateChain();
-                    console.log(`Blockchain atualizada registrada`);
                     break;
                 case '3':
                     this.propagateChain();
@@ -108,7 +101,7 @@ class Node extends EventEmitter{
                 case '8':
                     rl.question(`Digite o endereço que deseja verificar o histórico: `, (address) => {
                         if(helper.isValidAddress(address)) {
-                            const result = this.blockchain.isInChain(address, this.blockchain.chain);
+                            const result = this.blockchain.isInChain(address);
                             if(!result){
                                 console.error(`Endereço não disponivel na rede`);
                             } else {
@@ -118,7 +111,9 @@ class Node extends EventEmitter{
                                 });
                             }
                         } else console.error("Endereço inválido!");
+                        this.menu(rl, exit);
                     });
+                    
                     break;
                 case '0':
                     console.log(`Saindo do nó ${this.id}`);

@@ -1,5 +1,4 @@
 const helper = require('./helpers.js');
-const Block = require('./block.js');
 class Transacao{
 
     mineValueForMiner;

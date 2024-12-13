@@ -20,11 +20,7 @@ Após a clonagem, abra a pasta que clonou em um terminal e execute:
 
 `npm install`
 
-O npm fará o _download_ de algumas bibliotecas.
-
-Após isso, execute o seguinte comando para instalar a biblioteca para padrões criptográficos, _crypto.js_:
-
-`npm install crypto-js`
+O npm fará o _download_ de algumas bibliotecas necessárias para o funcionamento do projeto, como a _crypto.js_, que lida com criptografia dos blocos da _Blockchain_.
 
 ---
 
@@ -39,11 +35,18 @@ Para executar o projeto, basta executar no terminal o seguinte comando:
 
 O projeto contém funcionalidades básicas de uma rede _Blockchain_, são eles:
 
-- Criação de blocos com transações;
-- Validação de transações;
-- Algoritmo de Proof-of-Work (PoW) com mecanismo de dificuldade;
+- Criação de nós na rede
+  - Os nós estão interligados, cada um com sua cópia da _Blockchain_;
+- Possibilidade de propagar e atualizar a _Blockchain_ do nó selecionado;
+- Criação de transações, indexando-as a uma fila de transações ainda não processadas
+  - Todos os endereços possuem um saldo;
+- Criação de blocos a partir do _Proo-of-Work_, minerando e trazendo recompensa a um endereço do nó selecionado
+  - Algoritmo de _Proof-of-Work_ (PoW) com mecanismo de dificuldade;
 - Verificação de histórico de transações.
 
+## Documentação detalhada 📄
+
+Se ficou curioso, está disponivel uma documentação sobre o projeto, relatando como foi implementada cada funcionalidade, [aqui](/READ_DOCUMENTATION.md) ⬅️
 
 ## Finalização 🤔
 Se tudo ocorreu bem, deve ser executado o código e apresentar um menu com todas as funcionalidades descritas acima.

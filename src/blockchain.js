@@ -5,7 +5,7 @@ class Blockchain{
 
     chain = [];
     pendingTransaction = [];
-    addresses;
+    static addresses;
 
     constructor(){
         const genesisBlock = Block.genesis();
@@ -30,7 +30,7 @@ class Blockchain{
             const transacao = this.pendingTransaction[i];
             if(!transacao.from || !transacao.to || !transacao.value){
                 console.log("Transações inválidas. Preencha todos os campos de todas as transações");
-                return false; // ????????????????????????????????????????????????
+                return false; // ?????????????????????????????????????????????????????????
             }
         }
 
@@ -66,19 +66,15 @@ class Blockchain{
         }
     }
 
-    isInChain(address, chain){    
-        for(let transacao of chain){
-            if(transacao.from == address || transacao.to == address){
-                return true;
+    isInChain(address){    
+        for(let block of this.chain){
+            for(let transacao of block.transactions){
+                if(transacao.from == address || transacao.to == address){
+                    return true;
+                }
             }
         }
         return false;
-
-        
-
-
-
-        return true;
     }
 
     getHistoryTransaction(transactions, address){
