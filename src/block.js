@@ -43,13 +43,17 @@ class Block{
     mineTransaction(transacoes, addresses){
 
         const firstAddress = [...addresses.keys()][0];
+        let recieveTot = 0;
 
         for(let transacao of transacoes){
-            let saldoAtual = addresses.get(firstAddress);
-            console.log(saldoAtual);
-            saldoAtual += transacao.mineValueForMiner;
-            addresses.set(firstAddress, saldoAtual);
+            recieveTot = parseFloat(recieveTot) + parseFloat(transacao.mineValueForMiner)            
         }
+
+        const saldoAtual = addresses.get(firstAddress);
+        
+        addresses.set(firstAddress, saldoAtual + recieveTot);
+
+        console.log(`Recompensa total de ${recieveTot} atribuída ao minerador (${firstAddress})`);
     }
 
     static mineBlock(ultimoBloco, transacao){

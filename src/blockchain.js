@@ -26,24 +26,36 @@ class Blockchain{
     }
 
     createBlock(){
-        for(let i = 0; i < this.pendingTransaction.length; i++){
-            const transacao = this.pendingTransaction[i];
-            if(!transacao.from || !transacao.to || !transacao.value){
-                console.log("Transações inválidas. Preencha todos os campos de todas as transações");
-                return false; // ?????????????????????????????????????????????????????????
-            }
-        }
-
         const newBlock = Block.mineBlock(this.ultimoBloco(), this.pendingTransaction);
-        
 
         newBlock.mineTransaction(this.pendingTransaction, this.addresses);
+        this.fromPay();
         this.chain.push(newBlock);
 
         this.pendingTransaction = [];
-        console.log("Bloco adicionado a rede!!!");
+        console.log("Bloco adicionado à rede!!!");
+
+        const firstAddress = [...this.addresses.keys()][0];
+        console.log(this.addresses.get(firstAddress));
+        
         
         return true;
+    }
+
+    fromPay(){
+        for(let transacao of this.pendingTransaction){
+            const actual = parseFloat(this.addresses.get(transacao.from));
+            const tot = (parseFloat(transacao.value) + parseFloat(transacao.mineValueForMiner));
+            
+            if(actual < tot  - Number.EPSILON){
+                console.log(`Saldo insuficiente para ${transacao.from}. Transação ignorada.`);
+                continue;
+            }
+
+            const newSaldo = Math.round((actual - tot) * 100) / 100;
+            
+            this.addresses.set(transacao.from, newSaldo);
+        }
     }
 
     isChainValid(){

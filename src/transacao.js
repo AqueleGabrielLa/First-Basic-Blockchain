@@ -7,7 +7,7 @@ class Transacao{
         this.from = from;
         this.to = to;
         this.value = value;
-        this.fee = value * 0.02;
+        this.fee = parseFloat(value * 0.02);
     }
 
     toString(){
@@ -23,7 +23,7 @@ class Transacao{
         }
 
         const saldoRemetente = parseFloat(addresses.get(this.from));
-        const custoTotal = parseFloat(this.value) + parseFloat(this.fee) //+ Block.baseMineValue;
+        const custoTotal = parseFloat(this.value) + parseFloat(this.fee) + 0.000000010;
 
         if(saldoRemetente < custoTotal){
             console.log(`Remetente não tem saldo suficiente pra concluir a transação.`);
@@ -35,7 +35,7 @@ class Transacao{
             return false;
         }
 
-        this.mineValueForMiner = this.fee + 0.000000010;
+        this.mineValueForMiner = Number(this.fee + 0.00000001).toFixed(8);
 
         return true;
     }
